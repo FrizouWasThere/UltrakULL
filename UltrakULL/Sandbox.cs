@@ -28,11 +28,7 @@ namespace UltrakULL
         private void PatchMisc()
         {
             GameObject sandboxShop = GameObject.Find("Sandbox Shop");
-            
-
-            
-            GameObject sandboxShopCanvas =
-                GetGameObjectChild(GetGameObjectChild(sandboxShop, "Canvas"), "Border");
+            GameObject sandboxShopCanvas = GetGameObjectChild(GetGameObjectChild(sandboxShop, "Canvas"), "Border");
             
             //Main menu
             GameObject sandboxShopMenu = GetGameObjectChild(sandboxShopCanvas, "Main Menu");
@@ -51,8 +47,7 @@ namespace UltrakULL
             
             //Time of day
             GameObject sandboxShopTimeOfDay = GetGameObjectChild(GetGameObjectChild(sandboxShopCanvas, "TOD Changer"),"Panel");
-            Text sandboxShopTimeOfDayLoading =
-                GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShopTimeOfDay, "Blocker"), "Panel"), "Text"));
+            Text sandboxShopTimeOfDayLoading = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShopTimeOfDay, "Blocker"), "Panel"), "Text"));
             sandboxShopTimeOfDayLoading.text = LanguageManager.CurrentLanguage.misc.loading;
             Text sandboxShopTimeOfDayClose = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(sandboxShopTimeOfDay, "Close Button"),"Text"));
             sandboxShopTimeOfDayClose.text = LanguageManager.CurrentLanguage.options.save_close;
@@ -60,8 +55,7 @@ namespace UltrakULL
             //World options
             GameObject sandboxShopWorldOptions = GetGameObjectChild(GetGameObjectChild(sandboxShopCanvas, "World Options"),"Panel");
             Text sandboxShopWorldOptionsTitle = GetTextfromGameObject(GetGameObjectChild(sandboxShopWorldOptions, "Title"));
-            sandboxShopWorldOptionsTitle.text =
-                "--" + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsTitle + "--";
+            sandboxShopWorldOptionsTitle.text = "--" + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsTitle + "--";
             Text sandboxWorldOptionsClose = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(sandboxShopWorldOptions, "Close Button"),"Text"));
             sandboxWorldOptionsClose.text = LanguageManager.CurrentLanguage.options.save_close;
             
@@ -72,8 +66,7 @@ namespace UltrakULL
             //Icons
             GameObject sandboxShopIcons = GetGameObjectChild(GetGameObjectChild(sandboxShopMenu, "Icons Menu"),"Panel");
             Text sandboxShopIconsTitle = GetTextfromGameObject(GetGameObjectChild(sandboxShopIcons, "Title"));
-            sandboxShopIconsTitle.text =
-                "--" + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_iconsTitle + "--";
+            sandboxShopIconsTitle.text = "--" + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_iconsTitle + "--";
             
             Text sandboxShopIconsDefault = GetTextfromGameObject(GetGameObjectChild(sandboxShopIcons, "TipText"));
             sandboxShopIconsDefault.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_default;
@@ -86,7 +79,6 @@ namespace UltrakULL
             
             
             // Sandbox enemy modifier menu
-
             GameObject panel = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Canvas"),"Alter Menu Wrapper"),"Sandbox Alter Menu"),"Spawning Menu");
             
             GameObject enemyAlterMenu = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(panel,"Scroll View"),"Viewport"),"Content");
