@@ -183,8 +183,8 @@ namespace UltrakULL.json
         public string cybergrind_musicConfirm;
         public string cybergrind_musicSoundtrack;
 
-        public string cybergrind_musicSoundtrack;
         public string cybergrind_musicFolderNameCyberGrind;
+        public string cybergrind_musicFolderNamePrelude;
         public string cybergrind_musicFolderNameAct1;
         public string cybergrind_musicFolderNameAct2;
         public string cybergrind_musicFolderNameAct3;
