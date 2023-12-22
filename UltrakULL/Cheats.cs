@@ -63,9 +63,12 @@ namespace UltrakULL
                     {
                         case "STAY ACTIVE": { return LanguageManager.CurrentLanguage.cheats.cheats_stayActive; }
                         case "DISABLE ON RELOAD": { return LanguageManager.CurrentLanguage.cheats.cheats_disableOnReload; }
+                        case "NEW SAVE": { return LanguageManager.CurrentLanguage.cheats.cheats_newSave; }
+                        case "LOAD LATEST SAVE": { return LanguageManager.CurrentLanguage.cheats.cheats_loadLatestSave; }
                         case "EQUIP": { return LanguageManager.CurrentLanguage.cheats.cheats_equip; }
                         case "REMOVE": { return LanguageManager.CurrentLanguage.cheats.cheats_remove; }
                         case "OPEN": { return LanguageManager.CurrentLanguage.cheats.cheats_open; }
+                        case "CLEAR": { return LanguageManager.CurrentLanguage.cheats.cheats_clearButton; }
                         case "KILL ALL": { return LanguageManager.CurrentLanguage.cheats.cheats_killAll; }
                         case "STATIC": { return LanguageManager.CurrentLanguage.cheats.cheats_static; }
                         case "DYNAMIC": { return LanguageManager.CurrentLanguage.cheats.cheats_dynamic; }
@@ -93,6 +96,7 @@ namespace UltrakULL
                     case "ultrakill.spawner-arm": { return LanguageManager.CurrentLanguage.cheats.cheats_spawnerArm; }
                     case "ultrakill.teleport-menu": { return LanguageManager.CurrentLanguage.cheats.cheats_teleportMenu; }
                     case "ultrakill.full-bright": { return LanguageManager.CurrentLanguage.cheats.cheats_fullBright; }
+                    case "ultrakill.invicibility": { return LanguageManager.CurrentLanguage.cheats.cheats_invicibility; }
 
                     case "ultrakill.noclip": { return LanguageManager.CurrentLanguage.cheats.cheats_noclip; }
                     case "ultrakill.flight": { return LanguageManager.CurrentLanguage.cheats.cheats_flight; }
@@ -102,6 +106,8 @@ namespace UltrakULL
                     case "ultrakill.infinite-power-ups": { return LanguageManager.CurrentLanguage.cheats.cheats_infinitePowerUps; }
 
                     case "ultrakill.blind-enemies": { return LanguageManager.CurrentLanguage.cheats.cheats_blindEnemies; }
+                    case "ultrakill.enemy-hate-enemy": { return LanguageManager.CurrentLanguage.cheats.cheats_blindEnemies; }
+                    case "ultrakill.enemy-ignore-player": { return LanguageManager.CurrentLanguage.cheats.cheats_blindEnemies; }
                     case "ultrakill.disable-enemy-spawns": { return LanguageManager.CurrentLanguage.cheats.cheats_disableEnemySpawns; }
                     case "ultrakill.invincible-enemies": { return LanguageManager.CurrentLanguage.cheats.cheats_invincibleEnemies; }
                     case "ultrakill.kill-all-enemies": { return LanguageManager.CurrentLanguage.cheats.cheats_killAllEnemies; }
@@ -113,6 +119,7 @@ namespace UltrakULL
                     case "ultrakill.sandbox.rebuild-nav": { return LanguageManager.CurrentLanguage.cheats.cheats_rebuildNav; }
                     case "ultrakill.sandbox.snapping": { return LanguageManager.CurrentLanguage.cheats.cheats_snapping; }
                     case "ultrakill.sandbox.physics": { return LanguageManager.CurrentLanguage.cheats.cheats_physics; }
+                        
                     case "ultrakill.clash-mode": { return LanguageManager.CurrentLanguage.cheats.cheats_crashMode; }
                 }
                 return cheatIdentifier;
