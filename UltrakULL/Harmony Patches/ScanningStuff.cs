@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using static UltrakULL.CommonFunctions;
@@ -14,9 +15,13 @@ namespace UltrakULL.Harmony_Patches
         [HarmonyPrefix]
         public static bool ScanBook_MyPatch(ref string text, bool noScan, int instanceId, ScanningStuff __instance)
         {
+            if(isUsingEnglish())
+            {
+                return true;
+            }
             GameObject canvas = GetInactiveRootObject("Canvas");
 
-            Text scanningText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvas, "ScanningStuff"), "ScanningPanel"), "Text"));
+            TextMeshProUGUI scanningText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvas, "ScanningStuff"), "ScanningPanel"), "Text"));
             scanningText.text = LanguageManager.CurrentLanguage.books.books_scanning;
             text = Books.GetBookText(text);
             return true;

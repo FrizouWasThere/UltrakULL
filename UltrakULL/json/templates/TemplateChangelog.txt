@@ -5,6 +5,10 @@ style: overkill
 cybergrind: musicFolderName(CyberGrind, Prelude, Act1, Act2, Act3, Secret, Prime, Misc)
 shop: moneyCount, lotsOfMoney
 misc: hellmap_act3(crescendo, climax)
+controls: controls_bindings
+controls: controls_move
+controls: controls_slot0 through to slot9
+controls: controls_nextWeapon, controls_previousWeapon, controls_arms
 
 1.2.3:
 
@@ -17,6 +21,7 @@ leveltips: leveltips_violence(first-fourth), leveltips_fraud(first-fourth), leve
 MODIFIED:
 
 devMuseum: museum_plaquesQuetzalTirado -> museum_plaquesQuetzalTirado2
+devMuseum: museum_booktoniFlyingDog -> museum_bookFlyingDog
 
 1.2.2:
 

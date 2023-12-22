@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using UltrakULL.json;
 using System;
+using TMPro;
+using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches
 {
@@ -11,8 +13,12 @@ namespace UltrakULL.Harmony_Patches
     public static class LocalizeEnemyInfo
     {
         [HarmonyPostfix]
-        public static void DisplayInfo_Postfix(SpawnableObject source, EnemyInfoPage __instance, Text ___enemyPageTitle, Text ___enemyPageContent)
+        public static void DisplayInfo_Postfix(SpawnableObject source, EnemyInfoPage __instance, TMP_Text ___enemyPageTitle, TMP_Text ___enemyPageContent)
         {
+            if(isUsingEnglish())
+            {
+                return;
+            }
             string enemyName = EnemyBios.GetName(source.objectName);
             string enemyType = EnemyBios.GetType(source.type);
             string enemyDescription = EnemyBios.GetDescription(source.objectName);

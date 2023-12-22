@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
+using TMPro;
 using UltrakULL.json;
 using UnityEngine.UI;
+
+using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches
 {
@@ -12,6 +15,11 @@ namespace UltrakULL.Harmony_Patches
         [HarmonyPrefix]
         public static bool SetInfo_MyPatch(int restarts, bool damage, bool majorUsed, bool cheatsUsed, FinalRank __instance, bool ___noRestarts, bool ___majorAssists, bool ___noDamage)
         {
+            if(isUsingEnglish())
+            {
+                return false;
+            }
+            
             __instance.extraInfo.text = "";
             int num = 1;
             if (!damage)
@@ -28,12 +36,12 @@ namespace UltrakULL.Harmony_Patches
             }
             if (cheatsUsed)
             {
-                Text text = __instance.extraInfo;
+                TMP_Text text = __instance.extraInfo;
                 text.text += "- <color=#44FF45>" + LanguageManager.CurrentLanguage.misc.endstats_cheatsUsed + "</color>\n";
             }
             if (majorUsed)
             {
-                Text text2 = __instance.extraInfo;
+                TMP_Text text2 = __instance.extraInfo;
                 text2.text += "- <color=#4C99E6>" + LanguageManager.CurrentLanguage.misc.endstats_assistsUsed + "</color>\n";
                 ___majorAssists = true;
             }
@@ -41,19 +49,19 @@ namespace UltrakULL.Harmony_Patches
             {
                 if (num >= 3)
                 {
-                    Text text3 = __instance.extraInfo;
+                    TMP_Text text3 = __instance.extraInfo;
                     text3.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n";
                 }
                 else
                 {
-                    Text text4 = __instance.extraInfo;
+                    TMP_Text text4 = __instance.extraInfo;
                     text4.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n  (+500<color=orange>P</color>)\n";
                 }
                 ___noRestarts = true;
             }
             else
             {
-                Text text5 = __instance.extraInfo;
+                TMP_Text text5 = __instance.extraInfo;
                 text5.text = string.Concat(new object[]
                 {
                 text5.text,
@@ -66,12 +74,12 @@ namespace UltrakULL.Harmony_Patches
             {
                 if (num >= 3)
                 {
-                    Text text6 = __instance.extraInfo;
+                    TMP_Text text6 = __instance.extraInfo;
                     text6.text += "+ <color=orange>" + LanguageManager.CurrentLanguage.misc.endstats_noDamage + "</color>\n";
                 }
                 else
                 {
-                    Text text7 = __instance.extraInfo;
+                    TMP_Text text7 = __instance.extraInfo;
                     text7.text += "+ <color=orange>" + LanguageManager.CurrentLanguage.misc.endstats_noDamage + "\n  (</color>+5,000<color=orange>P)</color>\n";
                 }
                 ___noDamage = true;

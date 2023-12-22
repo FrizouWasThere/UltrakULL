@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 
+using static UltrakULL.CommonFunctions;
+
 namespace UltrakULL.Harmony_Patches
 {
     //@Override
@@ -8,9 +10,12 @@ namespace UltrakULL.Harmony_Patches
     public static class LocalizeBossBar
     {
         [HarmonyPrefix]
-        public static bool CreateBossBar_MyPatch(ref string bossName)
+        public static bool CreateBossBar_MyPatch(ref BossHealthBar bossBar)
         {
-            bossName = BossStrings.GetBossName(bossName);
+            if(!isUsingEnglish())
+            {
+                bossBar.bossName = BossStrings.GetBossName(bossBar.source.FullName);
+            }
             return true;
         }
     }

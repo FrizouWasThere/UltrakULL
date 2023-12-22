@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HarmonyLib;
 using Newtonsoft.Json;
+using TMPro;
 using UltrakULL.json;
 using static UltrakULL.CommonFunctions;
 
@@ -20,8 +22,12 @@ namespace UltrakULL
         public static bool updateFailed;
         
         public static bool GlobalFontReady;
+        public static bool TMPFontReady;
+        
         public static Font GlobalFont;
         public static Font MuseumFont;
+        public static TMP_FontAsset GlobalFontTMP;
+        public static TMP_FontAsset MuseumFontTMP;
         
         public static bool wasLanguageReset = false;
         
@@ -75,27 +81,27 @@ namespace UltrakULL
                 GameObject pauseMenu = GetGameObjectChild(canvasObj, "PauseMenu");
 
                 //Title
-                Text pauseText = GetTextfromGameObject(GetGameObjectChild(pauseMenu, "Text"));
+                TextMeshProUGUI pauseText = GetTextMeshProUGUI(GetGameObjectChild(pauseMenu, "Text"));
                 pauseText.text = "-- " + LanguageManager.CurrentLanguage.pauseMenu.pause_title + " --";
 
                 //Resume
-                Text continueText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Resume"), "Text"));
+                TextMeshProUGUI continueText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Resume"), "Text"));
                 continueText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_resume;
 
                 //Checkpoint
-                Text checkpointText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Checkpoint"), "Text"));
+                TextMeshProUGUI checkpointText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Checkpoint"), "Text"));
                 checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_respawn;
 
                 //Restart mission
-                Text restartText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Mission"), "Text"));
+                TextMeshProUGUI restartText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Mission"), "Text"));
                 restartText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restart;
 
                 //Options
-                Text optionsText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Options"), "Text"));
+                TextMeshProUGUI optionsText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Options"), "Text"));
                 optionsText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_options;
 
                 //Quit
-                Text quitText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Quit Mission"), "Text"));
+                TextMeshProUGUI quitText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Quit Mission"), "Text"));
                 quitText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quit;
 
                 //Quit+Restart windows
@@ -103,31 +109,31 @@ namespace UltrakULL
 
                 //Quit
                 GameObject quitDialog = GetGameObjectChild(GetGameObjectChild(pauseDialogs, "Quit Confirm"), "Panel");
-                Text quitDialogText = GetTextfromGameObject(GetGameObjectChild(quitDialog, "Text"));
+                TextMeshProUGUI quitDialogText = GetTextMeshProUGUI(GetGameObjectChild(quitDialog, "Text (2)"));
                 quitDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirm;
 
-                Text quitDialogTooltip = GetTextfromGameObject(GetGameObjectChild(quitDialog, "Text (1)"));
+                TextMeshProUGUI quitDialogTooltip = GetTextMeshProUGUI(GetGameObjectChild(quitDialog, "Text (1)"));
                 quitDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
 
-                Text quitDialogYes = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(quitDialog, "Confirm"), "Text"));
+                TextMeshProUGUI quitDialogYes = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(quitDialog, "Confirm"), "Text"));
                 quitDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmYes;
 
-                Text quitDialogNo = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(quitDialog, "Cancel"), "Text"));
+                TextMeshProUGUI quitDialogNo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(quitDialog, "Cancel"), "Text"));
                 quitDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmNo;
 
                 //Restart
                 GameObject restartDialog = GetGameObjectChild(GetGameObjectChild(pauseDialogs, "Restart Confirm"), "Panel");
 
-                Text restartDialogText = GetTextfromGameObject(GetGameObjectChild(restartDialog, "Text"));
+                TextMeshProUGUI restartDialogText = GetTextMeshProUGUI(GetGameObjectChild(restartDialog, "Text"));
                 restartDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirm;
 
-                Text restartDialogTooltip = GetTextfromGameObject(GetGameObjectChild(restartDialog, "Text (1)"));
+                TextMeshProUGUI restartDialogTooltip = GetTextMeshProUGUI(GetGameObjectChild(restartDialog, "Text (1)"));
                 restartDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
 
-                Text restartDialogYes = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(restartDialog, "Confirm"), "Text"));
+                TextMeshProUGUI restartDialogYes = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(restartDialog, "Confirm"), "Text"));
                 restartDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmYes;
 
-                Text restartDialogNo = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(restartDialog, "Cancel"), "Text"));
+                TextMeshProUGUI restartDialogNo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(restartDialog, "Cancel"), "Text"));
                 restartDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmNo;
             }
             catch (Exception e)
@@ -140,7 +146,7 @@ namespace UltrakULL
         public static void LoadFonts()
         {
             Logging.Message("Loading font resource bundle...");
-            //Will file from the same directory that the dll is in.
+            //Will load from the same directory that the dll is in.
             AssetBundle fontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder,"ullfont.resource"));
 
             if(fontBundle == null)
@@ -154,22 +160,39 @@ namespace UltrakULL
                 
                 Font font1 = fontBundle.LoadAsset<Font>("VCR_OSD_MONO");
                 Font font2 = fontBundle.LoadAsset<Font>("EBGaramond-Regular");
-                if(font1 == null || font2 == null)
+                TMP_FontAsset font1TMP = fontBundle.LoadAsset<TMP_FontAsset>("VCR_OSD_MONO");
+                TMP_FontAsset font2TMP = fontBundle.LoadAsset<TMP_FontAsset>("EBGaramond-Regular");
+                
+                if(font1 && font2)
                 {
-                    Logging.Error("FAILED TO LOAD FONT");
+                    Logging.Warn("Normal fonts loaded.");
+                    GlobalFont = font1;
+                    MuseumFont = font2;
+                    GlobalFontReady = true;
                 }
                 else
                 {
-                    Logging.Warn("Fonts loaded.");
-                    GlobalFont = font1;
-                    GlobalFontReady = true;
-                    MuseumFont = font2;
+                    Logging.Error("FAILED TO LOAD NORMAL FONTS");
+                    GlobalFontReady = false;
                 }
+                if(font1TMP && font2TMP)
+                {
+                    Logging.Warn("Normal TMP fonts loaded.");
+                    GlobalFontTMP = font1TMP;
+                    MuseumFontTMP = font2TMP;
+                }
+                else
+                {
+                    Logging.Error("FAILED TO LOAD TMP FONTS");
+                    TMPFontReady = false;
+                }
+                
             }
         }
         
         public static void HandleSceneSwitch(Scene scene,ref GameObject canvas)
         {
+
             //Logging.Message("Switching scenes...");
             string levelName = GetCurrentSceneName();
             if(levelName == "Intro" || levelName == "Bootstrap")
@@ -216,7 +239,7 @@ namespace UltrakULL
                         //Add notif if there's a mod update available
                         if(updateAvailable)
                         { 
-                            ultrakullLogoText.text += "\n<color=lime>UPDATE AVAILABLE!</color>";
+                            ultrakullLogoText.text += "\n<color=green>UPDATE AVAILABLE!</color>";
                                 
                             //Make an update button
                             GameObject buttonBase= GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"Main Menu (1)"),"Panel"),"Youtube");
@@ -228,9 +251,9 @@ namespace UltrakULL
                             ultrakullUpdateButton.GetComponentInChildren<WebButton>().url = "https://github.com/ClearwaterTM/UltrakULL/releases/latest";
                         }
                         //Warn of a language that doesn't match the mod version
-                        if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()))
+                        if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()) && !isUsingEnglish())
                         {
-                            ultrakullLogoText.text += "\n<color=orange>Language version\noutdated.\nPlease update the\nlanguage file\nif one is available!</color>";
+                            ultrakullLogoText.text += "\n<color=orange>This language file\nwas created for\nan older version of\nUltrakULL.\nPlease check for\nan update to this file!</color>";
                         }
                         //Warn of a failed updated check
                         else if (!(updateAvailable) && updateFailed)
@@ -243,14 +266,21 @@ namespace UltrakULL
 
                     default:
                     {
+                        if (isUsingEnglish())
+                        {
+                            Logging.Warn("Current language is English, not patching.");
+                            return;
+                        }
+                        
                         Logging.Message("Regular scene");
                         Logging.Message("Attempting to patch base elements");
-                        PatchPauseMenu(ref canvasObj);
-                        Cheats.PatchCheatConsentPanel(ref canvasObj);
-                        HUDMessages.PatchDeathScreen(ref canvasObj);
-                        LevelStatWindow.PatchStats(ref canvasObj);
-                        HUDMessages.PatchMisc(ref canvasObj);
-                        Options options = new Options(ref canvasObj);
+                        try{PatchPauseMenu(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+                        try{Cheats.PatchCheatConsentPanel(ref canvasObj);;} catch(Exception e){Console.WriteLine(e.ToString());}
+                        try{HUDMessages.PatchDeathScreen(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+                        try{LevelStatWindow.PatchStats(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+                        try{HUDMessages.PatchMisc(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+                        try{Options options = new Options(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+        
                         Logging.Message("Base elements patched");
                         }
                         
@@ -314,8 +344,8 @@ namespace UltrakULL
             await Task.Delay(250);
             if (GetCurrentSceneName() == "Main Menu")
             {
-                //Open Language Folder button in Options->Langauge
-                Text openLangFolderText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"OptionsMenu"), "Language Page"),"Scroll Rect (1)"),"Contents"),"OpenLangFolder"),"Slot Text")); 
+                //Open Language Folder button in Options->Language
+                TextMeshProUGUI openLangFolderText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"OptionsMenu"), "Language Page"),"Scroll Rect (1)"),"Contents"),"OpenLangFolder"),"Slot Text")); 
                 openLangFolderText.text = "<color=#03fc07>Open language folder</color>";
 
                 //Get the mods/restart buttons...

@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-
+using TMPro;
 using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
 
@@ -17,6 +17,11 @@ namespace UltrakULL.Harmony_Patches
         [HarmonyPostfix]
         public static void RebuildMenu_Postfix()
         {
+            if(isUsingEnglish())
+            {
+                return;
+            }
+            
             GameObject canvas = GetInactiveRootObject("Canvas");
 
             GameObject cheatMenu = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvas, "Cheat Menu"), "Cheats Manager"), "Scroll View"), "Viewport");
@@ -52,12 +57,13 @@ namespace UltrakULL.Harmony_Patches
             {
                 item.longName.text = Cheats.GetCheatName(cheat.Identifier);
                 item.stateBackground.color = (cheat.IsActive ? ___enabledColor : ___disabledColor);
-
+                
                 string cheatDisabledStatus = Cheats.GetCheatStatus(cheat.ButtonDisabledOverride);
                 string cheatEnabledStatus = Cheats.GetCheatStatus(cheat.ButtonEnabledOverride);
-
+                
                 item.stateText.text = (cheat.IsActive ? (cheatEnabledStatus ?? LanguageManager.CurrentLanguage.cheats.cheats_activated) : (cheatDisabledStatus ?? LanguageManager.CurrentLanguage.cheats.cheats_deactivated)); //Cheat status
                 item.bindButtonBack.gameObject.SetActive(false);
+                
                 string text = MonoSingleton<CheatBinds>.Instance.ResolveCheatKey(cheat.Identifier);
                 if (string.IsNullOrEmpty(text))
                 {
@@ -68,7 +74,7 @@ namespace UltrakULL.Harmony_Patches
                     item.bindButtonText.text = text.ToUpper();
                 }
                 GameObject parentResetButton = item.resetBindButton.gameObject;
-                Text parentResetText = CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(parentResetButton, "Text"));
+                TextMeshProUGUI parentResetText = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(parentResetButton, "Text"));
                 parentResetText.text = LanguageManager.CurrentLanguage.cheats.cheats_delete;
                 __instance.RenderCheatsInfo();
                 return false;
